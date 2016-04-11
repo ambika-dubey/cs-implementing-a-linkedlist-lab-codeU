@@ -85,7 +85,47 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public void add(int index, E element) {
-		// TODO: fill this in
+		// TODO: fill this in//////////////////////////////////////////////////////////////////
+      
+      if (index < 0 /*|| index >= size*/) {
+         throw new IndexOutOfBoundsException();
+      }
+      
+      Node temp = new Node(element);
+      
+      if(index == 0){
+         if(size == 0){
+            head = temp;
+            size++;
+            return;
+         }
+         else{
+            temp.next = head.next;
+            head = temp;
+            size++;
+            return;
+         }
+      }
+      
+      Node node = head;
+      // loop until the index
+      for (int i = 0; i < index-1; i++) {
+         //if(i >= size){
+         //   node = new Node();
+         //}
+         if(node.next == null){
+            node.next = new Node();
+         }
+         node = node.next;
+      }
+      
+      temp.next = node.next;
+      node.next = temp;
+      
+      size++;
+      
+      
+      
 	}
 
 	@Override
@@ -146,7 +186,14 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public int indexOf(Object target) {
-		// TODO: fill this in
+      if(head == null) return -1;
+      Node node = head;
+      for(int i = 0; i < size; i++){
+         if(equals(target, node.cargo)){
+            return i;
+         }
+         node = node.next;
+      }
 		return -1;
 	}
 
@@ -201,7 +248,24 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public boolean remove(Object obj) {
-		// TODO: fill this in
+		// TODO: fill this in----------------------------------------------
+      
+      Node node = head;
+      if(equals(obj, node.cargo)){
+         size--;
+         head = head.next;
+         return true;
+      }
+      
+      for (int i=0; i<size-1; i++) {
+         if(node.next != null && equals(obj, node.next.cargo)) {
+            node.next = node.next.next;
+            size--;
+            return true;
+         }
+         node = node.next;
+      }
+      
 		return false;
 	}
 
@@ -250,7 +314,7 @@ public class MyLinkedList<E> implements List<E> {
 		if (fromIndex < 0 || toIndex >= size || fromIndex > toIndex) {
 			throw new IndexOutOfBoundsException();
 		}
-		// TODO: classify this and improve it.
+		// TODO: classify this and improve it.-----------------------------------
 		int i = 0;
 		MyLinkedList<E> list = new MyLinkedList<E>();
 		for (Node node=head; node != null; node = node.next) {
